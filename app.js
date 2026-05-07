@@ -488,6 +488,12 @@ window.addEventListener("hashchange", () => {
 
 document.querySelector("#exportIcs").addEventListener("click", downloadIcs);
 
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("sw.js").catch(() => {});
+  });
+}
+
 categoryFilter.addEventListener("click", (event) => {
   const chip = event.target.closest(".category-filter__chip");
   if (!chip) return;

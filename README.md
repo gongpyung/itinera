@@ -119,10 +119,20 @@ itinera/
 │   └── trip.config.js  여행마다 갈아끼우는 메타데이터
 ├── data/
 │   └── itinerary.js    hotel + days
+├── manifest.json       PWA 메타 (앱 이름/색상/아이콘)
+├── sw.js               service worker — 정적 자산 오프라인 캐시
+├── icon.svg            PWA / 브라우저 탭 아이콘
 ├── .nojekyll           GitHub Pages용
 ├── .gitignore
 └── README.md
 ```
+
+## PWA / 오프라인
+
+- `manifest.json` + `sw.js`로 PWA로 동작. 모바일 브라우저 메뉴에서 "홈 화면에 추가" 가능.
+- 처음 로드 후 `sw.js`가 정적 자산(HTML/CSS/JS/config/data/아이콘)을 캐시해서 오프라인에서도 페이지가 뜬다. Google Maps iframe은 cross-origin이라 캐시 안 되지만, 일정/체크리스트는 비행기 모드에서도 보임.
+- **새 여행 시작 시:** `manifest.json`의 `name`/`short_name`/`theme_color`도 갈아끼울 것. theme_color는 `tripConfig.theme`이 가리키는 프리셋의 accent 색에 맞춰주는 게 자연스럽다.
+- 새 정적 자산을 추가하면 `sw.js`의 `CORE_ASSETS` 배열과 `CACHE_VERSION` 둘 다 손대야 한다. version을 올리지 않으면 옛 캐시가 계속 살아남는다.
 
 스크립트 로딩 순서: `config/trip.config.js` → `data/itinerary.js` → `app.js`. 각각 `window.TRIP_CONFIG` / `window.TRIP_DATA`에 글로벌로 노출.
 

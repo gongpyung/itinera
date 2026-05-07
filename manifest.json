@@ -1,0 +1,18 @@
+{
+  "name": "콩부부 시드니 여행 ❤️",
+  "short_name": "시드니 여행",
+  "description": "재사용 가능한 여행 일정",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "theme_color": "#007c75",
+  "background_color": "#f6f7f3",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "type": "image/svg+xml",
+      "sizes": "any",
+      "purpose": "any"
+    }
+  ]
+}
