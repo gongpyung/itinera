@@ -11,14 +11,18 @@ const openHotelMap = document.querySelector("#openHotelMap");
 const mobileInlineMap = window.matchMedia("(max-width: 720px)");
 let activeInlineMap = null;
 
-const encode = (value) => encodeURIComponent(value);
-
 function googleSearchUrl(query) {
-  return `https://www.google.com/maps/search/?api=1&query=${encode(query)}`;
+  const url = new URL("https://www.google.com/maps/search/");
+  url.searchParams.set("api", "1");
+  url.searchParams.set("query", query);
+  return url.toString();
 }
 
 function googleEmbedUrl(query) {
-  return `https://maps.google.com/maps?q=${encode(query)}&output=embed`;
+  const url = new URL("https://maps.google.com/maps");
+  url.searchParams.set("q", query);
+  url.searchParams.set("output", "embed");
+  return url.toString();
 }
 
 function googleRouteUrl(stops, travelMode = "walking") {
@@ -32,25 +36,21 @@ function googleRouteUrl(stops, travelMode = "walking") {
     return googleSearchUrl(routeStops[0].query);
   }
 
-  const origin = routeStops[0].query;
-  const destination = routeStops[routeStops.length - 1].query;
+  const url = new URL("https://www.google.com/maps/dir/");
+  url.searchParams.set("api", "1");
+  url.searchParams.set("origin", routeStops[0].query);
+  url.searchParams.set("destination", routeStops[routeStops.length - 1].query);
+  url.searchParams.set("travelmode", travelMode);
+
   const waypoints = routeStops
     .slice(1, -1)
     .map((stop) => stop.query)
     .join("|");
-
-  const params = new URLSearchParams({
-    api: "1",
-    origin,
-    destination,
-    travelmode: travelMode,
-  });
-
   if (waypoints) {
-    params.set("waypoints", waypoints);
+    url.searchParams.set("waypoints", waypoints);
   }
 
-  return `https://www.google.com/maps/dir/?${params.toString()}`;
+  return url.toString();
 }
 
 function tagClass(tag, stop) {
@@ -60,19 +60,25 @@ function tagClass(tag, stop) {
 }
 
 function applyTripChrome() {
-  document.documentElement.lang = tripConfig.htmlLang;
-  document.documentElement.dataset.theme = tripConfig.theme;
-  document.documentElement.style.setProperty(
-    "--hero-image",
-    `url("${tripConfig.heroImage}")`,
-  );
+  const root = document.documentElement;
+  root.lang = tripConfig.htmlLang;
+  root.dataset.theme = tripConfig.theme;
+  root.style.setProperty("--hero-image", `url("${tripConfig.heroImage}")`);
 
   document.title = tripConfig.documentTitle;
 
-  document.querySelector("#tripEyebrow").textContent = tripConfig.eyebrow;
-  document.querySelector("#tripTitle").textContent = tripConfig.title;
-  document.querySelector("#tripHotel").textContent =
-    `${tripConfig.hotelLabelPrefix}: ${hotel.displayName}`;
+  const textBindings = {
+    tripEyebrow: tripConfig.eyebrow,
+    tripTitle: tripConfig.title,
+    tripHotel: `${tripConfig.hotelLabelPrefix}: ${hotel.displayName}`,
+    itineraryEyebrow: tripConfig.itineraryEyebrow,
+    itineraryHeading: tripConfig.itineraryHeading,
+    mapEyebrow: tripConfig.mapEyebrow,
+    allDaysButton: tripConfig.allDaysLabel,
+  };
+  for (const [id, text] of Object.entries(textBindings)) {
+    document.getElementById(id).textContent = text;
+  }
 
   document.querySelector("#tripSummary").innerHTML = tripConfig.summaryChips
     .map((chip) => `<span>${chip}</span>`)
@@ -81,15 +87,10 @@ function applyTripChrome() {
   document
     .querySelector("#itinerarySection")
     .setAttribute("aria-label", tripConfig.itineraryAriaLabel);
-  document.querySelector("#itineraryEyebrow").textContent = tripConfig.itineraryEyebrow;
-  document.querySelector("#itineraryHeading").textContent = tripConfig.itineraryHeading;
-  document.querySelector("#mapEyebrow").textContent = tripConfig.mapEyebrow;
 
   mapTitle.textContent = hotel.displayName;
   mapOpenLink.textContent = tripConfig.openInGoogleMapsLabel;
   openHotelMap.textContent = tripConfig.hotelMapLinkLabel;
-
-  document.querySelector("#allDaysButton").textContent = tripConfig.allDaysLabel;
 }
 
 function mapDetailsMarkup(day, stop) {
