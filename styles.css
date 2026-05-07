@@ -277,6 +277,12 @@ h1 {
   margin-bottom: 18px;
 }
 
+.section-heading__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
 .section-heading h2,
 .map-toolbar h2 {
   margin-bottom: 0;

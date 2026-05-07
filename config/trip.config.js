@@ -39,6 +39,7 @@ window.TRIP_CONFIG = {
 
   /** Link labels */
   hotelMapLinkLabel: "숙소 지도",
+  calendarExportLabel: "캘린더 추가",
   todayRouteLinkLabel: "오늘 경로",
   openInGoogleMapsLabel: "Google Maps",
   openPlaceLabel: "장소 열기",
