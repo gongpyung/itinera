@@ -179,7 +179,22 @@ function selectStop(dayId, stopIndex) {
   mapOpenLink.href = googleSearchUrl(stop.query);
   mapDetails.innerHTML = mapDetailsMarkup(day, stop);
 
+  const desiredHash = `#${dayId}-stop-${stopIndex}`;
+  if (location.hash !== desiredHash) {
+    history.replaceState(null, "", desiredHash);
+  }
+
   return { day, stop };
+}
+
+function parseStopHash() {
+  const match = location.hash.match(/^#(day-\d+)-stop-(\d+)$/);
+  if (!match) return null;
+  const dayId = match[1];
+  const stopIndex = Number(match[2]);
+  const day = days.find((d) => d.id === dayId);
+  if (!day || stopIndex < 0 || stopIndex >= day.stops.length) return null;
+  return { dayId, stopIndex };
 }
 
 function clearInlineMap(clearActive = false) {
@@ -247,7 +262,21 @@ applyTripChrome();
 renderNav();
 renderItinerary();
 openHotelMap.href = googleSearchUrl(hotel.query);
-selectStop(days[0].id, 0);
+
+const initialStop = parseStopHash() ?? { dayId: days[0].id, stopIndex: 0 };
+selectStop(initialStop.dayId, initialStop.stopIndex);
+
+if (parseStopHash()) {
+  const card = document.querySelector(
+    `.stop-card[data-day="${initialStop.dayId}"][data-stop="${initialStop.stopIndex}"]`,
+  );
+  card?.scrollIntoView({ block: "center" });
+}
+
+window.addEventListener("hashchange", () => {
+  const parsed = parseStopHash();
+  if (parsed) selectStop(parsed.dayId, parsed.stopIndex);
+});
 
 dayList.addEventListener("click", (event) => {
   const closeButton = event.target.closest(".inline-map__close");
