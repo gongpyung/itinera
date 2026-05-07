@@ -3,6 +3,8 @@ const { hotel, days } = window.TRIP_DATA;
 
 const dayList = document.querySelector("#dayList");
 const dayNav = document.querySelector(".day-nav");
+const categoryFilter = document.querySelector("#categoryFilter");
+const activeCategories = new Set();
 const mapFrame = document.querySelector("#mapFrame");
 const mapTitle = document.querySelector("#mapTitle");
 const mapOpenLink = document.querySelector("#mapOpenLink");
@@ -241,6 +243,51 @@ function renderInlineMap(stopCard, day, stop, stopIndex) {
   activeInlineMap = { dayId: day.id, stopIndex };
 }
 
+function uniqueCategories() {
+  const seen = new Set();
+  const list = [];
+  for (const day of days) {
+    for (const stop of day.stops) {
+      if (stop.category && !seen.has(stop.category)) {
+        seen.add(stop.category);
+        list.push(stop.category);
+      }
+    }
+  }
+  return list;
+}
+
+function renderCategoryFilter() {
+  categoryFilter.innerHTML = uniqueCategories()
+    .map(
+      (cat) =>
+        `<button class="category-filter__chip" type="button" data-category="${cat}">${cat}</button>`,
+    )
+    .join("");
+}
+
+function applyCategoryFilter() {
+  const filtering = activeCategories.size > 0;
+
+  document.querySelectorAll(".stop-card").forEach((card) => {
+    const day = days.find((d) => d.id === card.dataset.day);
+    const stop = day?.stops[Number(card.dataset.stop)];
+    const visible = !filtering || activeCategories.has(stop?.category);
+    card.classList.toggle("is-hidden-by-filter", !visible);
+  });
+
+  document.querySelectorAll(".day-card").forEach((dayCard) => {
+    if (!filtering) {
+      dayCard.classList.remove("is-hidden-by-category");
+      return;
+    }
+    const visibleStops = dayCard.querySelectorAll(
+      ".stop-card:not(.is-hidden-by-filter)",
+    );
+    dayCard.classList.toggle("is-hidden-by-category", visibleStops.length === 0);
+  });
+}
+
 function filterDay(dayId) {
   clearInlineMap();
 
@@ -252,7 +299,21 @@ function filterDay(dayId) {
     card.classList.toggle("is-hidden", dayId !== "all" && card.dataset.dayCard !== dayId);
   });
 
-  const targetDay = dayId === "all" ? days[0] : days.find((day) => day.id === dayId);
+  const showAllDays = dayId === "all";
+  categoryFilter.classList.toggle("is-hidden-by-day", !showAllDays);
+
+  if (showAllDays) {
+    applyCategoryFilter();
+  } else {
+    document
+      .querySelectorAll(".stop-card.is-hidden-by-filter")
+      .forEach((card) => card.classList.remove("is-hidden-by-filter"));
+    document
+      .querySelectorAll(".day-card.is-hidden-by-category")
+      .forEach((card) => card.classList.remove("is-hidden-by-category"));
+  }
+
+  const targetDay = showAllDays ? days[0] : days.find((day) => day.id === dayId);
   if (targetDay) {
     selectStop(targetDay.id, 0);
   }
@@ -260,6 +321,7 @@ function filterDay(dayId) {
 
 applyTripChrome();
 renderNav();
+renderCategoryFilter();
 renderItinerary();
 openHotelMap.href = googleSearchUrl(hotel.query);
 
@@ -276,6 +338,21 @@ if (parseStopHash()) {
 window.addEventListener("hashchange", () => {
   const parsed = parseStopHash();
   if (parsed) selectStop(parsed.dayId, parsed.stopIndex);
+});
+
+categoryFilter.addEventListener("click", (event) => {
+  const chip = event.target.closest(".category-filter__chip");
+  if (!chip) return;
+  const category = chip.dataset.category;
+  if (activeCategories.has(category)) {
+    activeCategories.delete(category);
+    chip.classList.remove("is-active");
+  } else {
+    activeCategories.add(category);
+    chip.classList.add("is-active");
+  }
+  clearInlineMap();
+  applyCategoryFilter();
 });
 
 dayList.addEventListener("click", (event) => {
