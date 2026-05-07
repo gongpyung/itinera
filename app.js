@@ -89,116 +89,6 @@ function tagClass(tag, stop) {
   return "tag";
 }
 
-function escapeIcs(value) {
-  return String(value)
-    .replace(/\\/g, "\\\\")
-    .replace(/\r?\n/g, "\\n")
-    .replace(/,/g, "\\,")
-    .replace(/;/g, "\\;");
-}
-
-function pad2(n) {
-  return String(n).padStart(2, "0");
-}
-
-function isoDateToCompact(isoDate) {
-  return isoDate.replace(/-/g, "");
-}
-
-function nextIsoDate(isoDate) {
-  const [y, m, d] = isoDate.split("-").map(Number);
-  const next = new Date(Date.UTC(y, m - 1, d + 1));
-  return `${next.getUTCFullYear()}-${pad2(next.getUTCMonth() + 1)}-${pad2(next.getUTCDate())}`;
-}
-
-function parseStopTime(timeStr) {
-  const range = timeStr.match(/^(\d{1,2}):(\d{2})\s*[-–~]\s*(\d{1,2}):(\d{2})$/);
-  if (range) {
-    return {
-      startHM: [Number(range[1]), Number(range[2])],
-      endHM: [Number(range[3]), Number(range[4])],
-    };
-  }
-  const single = timeStr.match(/^(\d{1,2}):(\d{2})$/);
-  if (single) {
-    const sh = Number(single[1]);
-    const sm = Number(single[2]);
-    return {
-      startHM: [sh, sm],
-      endHM: [(sh + 1) % 24, sm],
-    };
-  }
-  return null;
-}
-
-function formatIcsStamp(date) {
-  return date.toISOString().replace(/[-:]/g, "").replace(/\.\d{3}/, "");
-}
-
-function buildIcsEvent(day, stop, stopIndex, stamp) {
-  const lines = [
-    "BEGIN:VEVENT",
-    `UID:${day.id}-stop-${stopIndex}@itinera`,
-    `DTSTAMP:${stamp}`,
-  ];
-
-  const parsed = parseStopTime(stop.time);
-  const compact = isoDateToCompact(day.isoDate);
-
-  if (parsed) {
-    lines.push(
-      `DTSTART:${compact}T${pad2(parsed.startHM[0])}${pad2(parsed.startHM[1])}00`,
-    );
-    lines.push(
-      `DTEND:${compact}T${pad2(parsed.endHM[0])}${pad2(parsed.endHM[1])}00`,
-    );
-  } else {
-    lines.push(`DTSTART;VALUE=DATE:${compact}`);
-    lines.push(`DTEND;VALUE=DATE:${isoDateToCompact(nextIsoDate(day.isoDate))}`);
-  }
-
-  const summary = parsed ? stop.name : `${stop.time} · ${stop.name}`;
-  lines.push(`SUMMARY:${escapeIcs(summary)}`);
-  if (stop.note) lines.push(`DESCRIPTION:${escapeIcs(stop.note)}`);
-  if (stop.query) lines.push(`LOCATION:${escapeIcs(stop.query)}`);
-  lines.push("END:VEVENT");
-  return lines;
-}
-
-function buildIcs() {
-  const stamp = formatIcsStamp(new Date());
-  const events = [];
-  for (const day of days) {
-    if (!day.isoDate) continue;
-    day.stops.forEach((stop, index) => {
-      events.push(...buildIcsEvent(day, stop, index, stamp));
-    });
-  }
-  return [
-    "BEGIN:VCALENDAR",
-    "VERSION:2.0",
-    `PRODID:-//itinera//trip//${tripConfig.htmlLang.toUpperCase()}`,
-    "CALSCALE:GREGORIAN",
-    "METHOD:PUBLISH",
-    ...events,
-    "END:VCALENDAR",
-  ].join("\r\n");
-}
-
-function downloadIcs() {
-  const blob = new Blob([buildIcs()], {
-    type: "text/calendar;charset=utf-8",
-  });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = `${tripConfig.documentTitle.replace(/[^\w가-힣]+/g, "_") || "trip"}.ics`;
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  setTimeout(() => URL.revokeObjectURL(url), 1000);
-}
-
 function applyTripChrome() {
   const root = document.documentElement;
   root.lang = tripConfig.htmlLang;
@@ -235,7 +125,6 @@ function applyTripChrome() {
   mapTitle.textContent = hotel.displayName;
   mapOpenLink.textContent = tripConfig.openInGoogleMapsLabel;
   openHotelMap.textContent = tripConfig.hotelMapLinkLabel;
-  document.querySelector("#exportIcs").textContent = tripConfig.calendarExportLabel;
 }
 
 function mapDetailsMarkup(day, stop) {
@@ -485,8 +374,6 @@ window.addEventListener("hashchange", () => {
   const parsed = parseStopHash();
   if (parsed) selectStop(parsed.dayId, parsed.stopIndex);
 });
-
-document.querySelector("#exportIcs").addEventListener("click", downloadIcs);
 
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
