@@ -1,3 +1,4 @@
+(function () {
 const hotel = {
   name: "Meriton Suites Kent Street, Sydney",
   displayName: "메리톤 켄트 스트리트",
@@ -355,3 +356,4 @@ const days = [
 ];
 
 window.TRIP_DATA = { hotel, days };
+})();
