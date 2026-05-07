@@ -5,6 +5,34 @@ const dayList = document.querySelector("#dayList");
 const dayNav = document.querySelector(".day-nav");
 const categoryFilter = document.querySelector("#categoryFilter");
 const activeCategories = new Set();
+
+const VISITED_KEY = "itinera:visited";
+const visitedSet = new Set(
+  JSON.parse(localStorage.getItem(VISITED_KEY) || "[]"),
+);
+
+function visitedKey(dayId, stopIndex) {
+  return `${dayId}-stop-${stopIndex}`;
+}
+
+function persistVisited() {
+  localStorage.setItem(VISITED_KEY, JSON.stringify([...visitedSet]));
+}
+
+function toggleVisited(dayId, stopIndex) {
+  const key = visitedKey(dayId, stopIndex);
+  const row = document.querySelector(
+    `.stop-row[data-day="${dayId}"][data-stop="${stopIndex}"]`,
+  );
+  if (visitedSet.has(key)) {
+    visitedSet.delete(key);
+    row?.classList.remove("is-visited");
+  } else {
+    visitedSet.add(key);
+    row?.classList.add("is-visited");
+  }
+  persistVisited();
+}
 const mapFrame = document.querySelector("#mapFrame");
 const mapTitle = document.querySelector("#mapTitle");
 const mapOpenLink = document.querySelector("#mapOpenLink");
@@ -129,23 +157,29 @@ function renderItinerary() {
   dayList.innerHTML = days
     .map((day) => {
       const stops = day.stops
-        .map(
-          (stop, index) => `
-            <button class="stop-card" type="button" data-day="${day.id}" data-stop="${index}">
-              <span class="stop-time">${stop.time}</span>
-              <span class="stop-body">
-                <span class="stop-title-row">
-                  <span class="stop-category">${stop.category}</span>
-                  <strong class="stop-name">${stop.name}</strong>
+        .map((stop, index) => {
+          const isVisited = visitedSet.has(visitedKey(day.id, index));
+          return `
+            <div class="stop-row${isVisited ? " is-visited" : ""}" data-day="${day.id}" data-stop="${index}">
+              <button class="stop-card" type="button" data-day="${day.id}" data-stop="${index}">
+                <span class="stop-time">${stop.time}</span>
+                <span class="stop-body">
+                  <span class="stop-title-row">
+                    <span class="stop-category">${stop.category}</span>
+                    <strong class="stop-name">${stop.name}</strong>
+                  </span>
+                  <span class="stop-note">${stop.note}</span>
+                  <span class="tag-row">
+                    ${stop.tags.map((tag) => `<span class="${tagClass(tag, stop)}">${tag}</span>`).join("")}
+                  </span>
                 </span>
-                <span class="stop-note">${stop.note}</span>
-                <span class="tag-row">
-                  ${stop.tags.map((tag) => `<span class="${tagClass(tag, stop)}">${tag}</span>`).join("")}
-                </span>
-              </span>
-            </button>
-          `,
-        )
+              </button>
+              <button class="stop-check" type="button" data-day="${day.id}" data-stop="${index}" aria-label="방문 체크" aria-pressed="${isVisited}">
+                <span aria-hidden="true">✓</span>
+              </button>
+            </div>
+          `;
+        })
         .join("");
 
       return `
@@ -239,7 +273,8 @@ function renderInlineMap(stopCard, day, stop, stopIndex) {
     </div>
   `;
 
-  stopCard.insertAdjacentElement("afterend", inlineMap);
+  const stopRow = stopCard.closest(".stop-row") ?? stopCard;
+  stopRow.insertAdjacentElement("afterend", inlineMap);
   activeInlineMap = { dayId: day.id, stopIndex };
 }
 
@@ -356,6 +391,17 @@ categoryFilter.addEventListener("click", (event) => {
 });
 
 dayList.addEventListener("click", (event) => {
+  const checkButton = event.target.closest(".stop-check");
+  if (checkButton) {
+    event.stopPropagation();
+    const checked = !visitedSet.has(
+      visitedKey(checkButton.dataset.day, Number(checkButton.dataset.stop)),
+    );
+    toggleVisited(checkButton.dataset.day, Number(checkButton.dataset.stop));
+    checkButton.setAttribute("aria-pressed", String(checked));
+    return;
+  }
+
   const closeButton = event.target.closest(".inline-map__close");
   if (closeButton) {
     clearInlineMap(true);
