@@ -80,8 +80,12 @@ function applyTripChrome() {
     document.getElementById(id).textContent = text;
   }
 
+  const totalStops = days.reduce((sum, d) => sum + d.stops.length, 0);
+  const resolveChip = (template) =>
+    template.replace("{days}", days.length).replace("{stops}", totalStops);
+
   document.querySelector("#tripSummary").innerHTML = tripConfig.summaryChips
-    .map((chip) => `<span>${chip}</span>`)
+    .map((chip) => `<span>${resolveChip(chip)}</span>`)
     .join("");
 
   document

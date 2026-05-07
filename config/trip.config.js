@@ -18,8 +18,13 @@ window.TRIP_CONFIG = {
   /** Hotel block tag prefix; the hotel name comes from data/itinerary.js */
   hotelLabelPrefix: "숙소",
 
-  /** Pill chips next to the heading. Free-form short strings. */
-  summaryChips: ["6일", "20+장소", "Google Maps"],
+  /**
+   * Pill chips next to the heading. Free-form short strings.
+   * Tokens "{days}" and "{stops}" are replaced with counts derived
+   * from data/itinerary.js so the chips stay accurate when the
+   * itinerary changes.
+   */
+  summaryChips: ["{days}일", "{stops}장소", "Google Maps"],
 
   /** Aria-label for the itinerary <section> */
   itineraryAriaLabel: "시드니 여행 일정",
