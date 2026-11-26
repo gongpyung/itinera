@@ -88,7 +88,7 @@ export function TripDialog({ mode, trip, onClose, onCreate, onUpdate }: Props) {
           <input
             value={title}
             onChange={(event) => setTitle(event.target.value)}
-            placeholder="예: 삿포로·비에이 겨울 여행 ❄️"
+            placeholder="예: 삿포로 겨울 여행 ❄️"
             autoFocus
           />
         </label>
@@ -97,7 +97,7 @@ export function TripDialog({ mode, trip, onClose, onCreate, onUpdate }: Props) {
           <input
             value={destination}
             onChange={(event) => setDestination(event.target.value)}
-            placeholder="예: 삿포로·비에이, 홋카이도"
+            placeholder="예: 삿포로, 홋카이도"
           />
         </label>
         <label className="field">
