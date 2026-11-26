@@ -1,0 +1,471 @@
+// Generated from legacy/data/itinerary.js by scripts/gen-sydney-seed.mjs.
+// The Sydney itinerary is carried over unchanged (title, hotel, every day and
+// stop, notes, tags, coordinates); only display dates were turned into ISO dates.
+import type { Trip } from "../types";
+
+export const sydneyTrip: Trip = {
+  "id": "trip-sydney",
+  "title": "콩부부 시드니 여행 ❤️",
+  "destination": "시드니, 호주",
+  "eyebrow": "4월 30일 - 5월 5일",
+  "startDate": "2026-04-30",
+  "endDate": "2026-05-05",
+  "heroImage": "https://images.unsplash.com/photo-1506973035872-a4ec16b8e8d9?auto=format&fit=crop&w=1800&q=80",
+  "theme": "harbour",
+  "createdAt": "2026-01-01T00:00:00.000Z",
+  "updatedAt": "2026-01-01T00:00:00.000Z",
+  "hotel": {
+    "name": "Meriton Suites Kent Street, Sydney",
+    "displayName": "메리톤 켄트 스트리트",
+    "query": "Meriton Suites Kent Street Sydney 528 Kent Street",
+    "lat": -33.8759,
+    "lng": 151.20588
+  },
+  "days": [
+    {
+      "id": "sy-d1",
+      "date": "2026-04-30",
+      "title": "도착, 북부 해안 산책, 장보기",
+      "summary": "공항 도착 후 체크인, McMahons Point 주변 산책, 월드스퀘어 장보기",
+      "travelMode": "walking",
+      "stops": [
+        {
+          "id": "sy-d1-s1",
+          "time": "09:55",
+          "name": "시드니 공항",
+          "category": "공항",
+          "query": "Sydney Airport",
+          "lat": -33.9498935,
+          "lng": 151.1819682,
+          "note": "공항 도착. 호텔 체크인은 12시쯤 예상",
+          "tags": [
+            "택시 15분"
+          ]
+        },
+        {
+          "id": "sy-d1-s2",
+          "time": "12:00",
+          "name": "메리톤 켄트 스트리트",
+          "category": "호텔",
+          "query": "Meriton Suites Kent Street Sydney 528 Kent Street",
+          "lat": -33.8759,
+          "lng": 151.20588,
+          "note": "짐 정리와 체크인",
+          "tags": [
+            "숙소"
+          ]
+        },
+        {
+          "id": "sy-d1-s3",
+          "time": "13:30",
+          "name": "Piato Restaurant",
+          "category": "점심",
+          "query": "Piato Restaurant 123 Blues Point Road McMahons Point Sydney",
+          "lat": -33.8445917,
+          "lng": 151.2044101,
+          "note": "파스타 또는 근처 피자집. 예약 완료",
+          "tags": [
+            "예약",
+            "택시 14분",
+            "버스 20분"
+          ],
+          "booked": true
+        },
+        {
+          "id": "sy-d1-s4",
+          "time": "15:10",
+          "name": "Quibaree Park",
+          "category": "공원",
+          "query": "Quibaree Park Lavender Bay Sydney",
+          "lat": -33.8441677,
+          "lng": 151.2069517,
+          "note": "식사 후 짧게 걷기 좋은 포인트",
+          "tags": [
+            "도보 5분"
+          ]
+        },
+        {
+          "id": "sy-d1-s5",
+          "time": "15:30",
+          "name": "Clark Park Viewpoint",
+          "category": "전망",
+          "query": "Clark Park Viewpoint Lavender Bay Sydney",
+          "lat": -33.8439235,
+          "lng": 151.2091271,
+          "note": "앵무새 공원 쪽 전망 포인트",
+          "tags": [
+            "도보 4분"
+          ]
+        },
+        {
+          "id": "sy-d1-s6",
+          "time": "16:00",
+          "name": "Bay Ten Espresso",
+          "category": "카페",
+          "query": "Bay Ten Espresso Middlemiss Street Lavender Bay Sydney",
+          "lat": -33.8431435,
+          "lng": 151.21048,
+          "note": "산책 중 커피 휴식",
+          "tags": [
+            "도보 4분"
+          ]
+        },
+        {
+          "id": "sy-d1-s7",
+          "time": "19:00",
+          "name": "Coles World Square",
+          "category": "마트",
+          "query": "Coles World Square Sydney",
+          "lat": -33.8770719,
+          "lng": 151.2071568,
+          "note": "밤 11시 30분까지. 호텔에서 먹을 것 장보기",
+          "tags": [
+            "택시 13분",
+            "버스 22분"
+          ]
+        },
+        {
+          "id": "sy-d1-s8",
+          "time": "선택",
+          "name": "The Baxter Inn",
+          "category": "바",
+          "query": "The Baxter Inn Clarence Street Sydney",
+          "lat": -33.8697467,
+          "lng": 151.2055275,
+          "note": "호텔에 짐을 두고 근처 칵테일바",
+          "tags": [
+            "도보 10분",
+            "선택"
+          ]
+        },
+        {
+          "id": "sy-d1-s9",
+          "time": "선택",
+          "name": "Ramblin Rascal Tavern",
+          "category": "바",
+          "query": "Ramblin Rascal Tavern Basement 60 Park Street Sydney",
+          "lat": -33.87341,
+          "lng": 151.2107927,
+          "note": "호텔 근처 칵테일바 대안",
+          "tags": [
+            "도보 4분",
+            "선택"
+          ]
+        },
+        {
+          "id": "sy-d1-s10",
+          "time": "밤",
+          "name": "메리톤 켄트 스트리트",
+          "category": "호텔",
+          "query": "Meriton Suites Kent Street Sydney 528 Kent Street",
+          "lat": -33.8759,
+          "lng": 151.20588,
+          "note": "호텔 귀가",
+          "tags": [
+            "도보 5분"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sy-d2",
+      "date": "2026-05-01",
+      "title": "블루 마운틴 + 페더데일 투어",
+      "summary": "389 Pitt St 픽업, 페더데일 야생공원, 세자매봉, 링컨스락, 선셋과 별보기",
+      "travelMode": "driving",
+      "stops": [
+        {
+          "id": "sy-d2-s1",
+          "time": "11:30-13:00",
+          "name": "Rydges World Square Hotel",
+          "category": "집결지 픽업",
+          "query": "Rydges World Square Hotel 389 Pitt Street Sydney",
+          "lat": -33.8771528,
+          "lng": 151.2075498,
+          "note": "Pitt St 방면 389 Pitt St. 5/1은 비서머타임 기준 페더데일 포함 픽업. 전날 카카오톡으로 확정 시간과 장소 안내",
+          "tags": [
+            "페더데일 포함",
+            "픽업",
+            "전날 확정"
+          ],
+          "booked": true
+        },
+        {
+          "id": "sy-d2-s2",
+          "time": "약 1시간",
+          "name": "Featherdale Wildlife Park",
+          "category": "동물원",
+          "query": "Featherdale Wildlife Park 217 Kildare Road Doonside NSW",
+          "lat": -33.7658373,
+          "lng": 150.8842667,
+          "note": "페더데일 야생공원 옵션 포함. 쿼카, 코알라 체험과 포토 타임. 코알라 체험 특가 $20 별도",
+          "tags": [
+            "옵션 포함",
+            "쿼카",
+            "코알라"
+          ]
+        },
+        {
+          "id": "sy-d2-s3",
+          "time": "오후",
+          "name": "Echo Point Lookout",
+          "category": "세자매봉",
+          "query": "Echo Point Lookout Echo Point Road Katoomba NSW",
+          "lat": -33.7310404,
+          "lng": 150.3114961,
+          "note": "세 자매봉을 가장 잘 볼 수 있는 전망대. 블루마운틴 대표 명소와 원주민 시대 전설 안내",
+          "tags": [
+            "전망대",
+            "세자매봉"
+          ]
+        },
+        {
+          "id": "sy-d2-s4",
+          "time": "오후",
+          "name": "Lincoln's Rock",
+          "category": "링컨스락",
+          "query": "Lincoln's Rock Wentworth Falls NSW",
+          "lat": -33.7405788,
+          "lng": 150.3717945,
+          "note": "제니 바위. 웨딩락, 플랫락, 허니문락으로도 불리는 커플 사진 명소",
+          "tags": [
+            "사진 명소",
+            "전망"
+          ]
+        },
+        {
+          "id": "sy-d2-s5",
+          "time": "일몰 전",
+          "name": "시크릿 선셋 포인트",
+          "category": "선셋",
+          "query": "Blue Mountains sunset lookout NSW",
+          "lat": -33.7241844,
+          "lng": 150.3164433,
+          "note": "무한투어 시그니처 히든 스팟. 가이드마다 포인트는 달라질 수 있음",
+          "tags": [
+            "히든 스팟",
+            "일몰"
+          ]
+        },
+        {
+          "id": "sy-d2-s6",
+          "time": "저녁 30분",
+          "name": "블루마운틴 근처 마을 저녁",
+          "category": "저녁",
+          "query": "Katoomba NSW restaurants",
+          "lat": -33.713759,
+          "lng": 150.3121633,
+          "note": "태국식, 한식, 호주식, 일식, 티벳식 등 현장 선택. 저녁 식사 비용은 직접 결제",
+          "tags": [
+            "직접 결제",
+            "현장 선택"
+          ]
+        },
+        {
+          "id": "sy-d2-s7",
+          "time": "밤",
+          "name": "별보기 시크릿 포인트",
+          "category": "별보기",
+          "query": "Blue Mountains stargazing lookout NSW",
+          "lat": -33.6190685,
+          "lng": 150.487634,
+          "note": "무한투어 별보기 시크릿 포인트. 날씨가 좋으면 호주의 별과 은하수 관찰 가능",
+          "tags": [
+            "별보기",
+            "날씨 영향"
+          ]
+        },
+        {
+          "id": "sy-d2-s8",
+          "time": "21:00-22:00",
+          "name": "Rydges World Square Hotel",
+          "category": "집결지 복귀",
+          "query": "Rydges World Square Hotel 389 Pitt Street Sydney",
+          "lat": -33.8771528,
+          "lng": 151.2075498,
+          "note": "투어 종료 후 389 Pitt St 시티 하차. 출발 시간, 날씨, 교통 상황에 따라 종료 시간 변동 가능",
+          "tags": [
+            "시티 하차",
+            "변동 가능"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sy-d3",
+      "date": "2026-05-02",
+      "title": "브런치, QVB, 미술관, 저녁 예약",
+      "summary": "도심 쇼핑과 미술관, 세인트 메리 대성당, 스테이크 저녁",
+      "travelMode": "walking",
+      "stops": [
+        {
+          "id": "sy-d3-s1",
+          "time": "10:00",
+          "name": "Rustic Board Cafe",
+          "category": "브런치",
+          "query": "Rustic Board Cafe 121 Walker Street North Sydney",
+          "lat": -33.8388647,
+          "lng": 151.2091675,
+          "note": "아침 브런치",
+          "tags": [
+            "도보 4분"
+          ]
+        },
+        {
+          "id": "sy-d3-s2",
+          "time": "11:30",
+          "name": "Queen Victoria Building",
+          "category": "쇼핑",
+          "query": "Queen Victoria Building Sydney",
+          "lat": -33.8714355,
+          "lng": 151.2066693,
+          "note": "쇼핑몰 구경. 근처에서 점심",
+          "tags": [
+            "택시 9분",
+            "버스 20분"
+          ]
+        },
+        {
+          "id": "sy-d3-s3",
+          "time": "14:00",
+          "name": "Art Gallery of New South Wales",
+          "category": "미술관",
+          "query": "Art Gallery of New South Wales Sydney",
+          "lat": -33.8686067,
+          "lng": 151.2174176,
+          "note": "입장료 무료. 오후 5시까지. 2시까지 도착해서 관람",
+          "tags": [
+            "택시 6분",
+            "버스 21분",
+            "도보 19분",
+            "무료"
+          ],
+          "free": true
+        },
+        {
+          "id": "sy-d3-s4",
+          "time": "15:00",
+          "name": "Bohaus Cafe129",
+          "category": "카페",
+          "query": "Bohäus Cafe 129 Cathedral Street Woolloomooloo Sydney",
+          "lat": -33.8728672,
+          "lng": 151.2198439,
+          "note": "미술관 관람 후 카페 휴식",
+          "tags": [
+            "도보 10분"
+          ]
+        },
+        {
+          "id": "sy-d3-s5",
+          "time": "16:30",
+          "name": "St Mary's Cathedral",
+          "category": "성당",
+          "query": "St Mary's Cathedral Sydney",
+          "lat": -33.8712586,
+          "lng": 151.2133632,
+          "note": "입장료 무료. 저녁 6시 30분까지. 4시 30분-5시 사이 도착",
+          "tags": [
+            "도보 8분",
+            "무료"
+          ],
+          "free": true
+        },
+        {
+          "id": "sy-d3-s6",
+          "time": "18:00",
+          "name": "The Meat & Wine Co Sydney CBD",
+          "category": "저녁",
+          "query": "The Meat & Wine Co Sydney CBD 219-223 Castlereagh Street Sydney",
+          "lat": -33.8755236,
+          "lng": 151.2087142,
+          "note": "스테이크 저녁. 6시 예약",
+          "tags": [
+            "예약",
+            "도보 11분"
+          ],
+          "booked": true
+        },
+        {
+          "id": "sy-d3-s7",
+          "time": "밤",
+          "name": "메리톤 켄트 스트리트",
+          "category": "호텔",
+          "query": "Meriton Suites Kent Street Sydney 528 Kent Street",
+          "lat": -33.8759,
+          "lng": 151.20588,
+          "note": "호텔 귀가",
+          "tags": [
+            "도보 3분"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sy-d4",
+      "date": "2026-05-03",
+      "title": "자유여행",
+      "summary": "현지 컨디션에 맞춰 여유롭게 이동",
+      "travelMode": "walking",
+      "stops": [
+        {
+          "id": "sy-d4-s1",
+          "time": "자유",
+          "name": "Sydney CBD",
+          "category": "자유",
+          "query": "Sydney CBD Australia",
+          "lat": -33.8747234,
+          "lng": 151.2053644,
+          "note": "날씨와 컨디션에 맞춰 자유 일정",
+          "tags": [
+            "자유여행"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sy-d5",
+      "date": "2026-05-04",
+      "title": "자유여행",
+      "summary": "전날 못 본 곳이나 쇼핑, 카페 일정으로 조정",
+      "travelMode": "walking",
+      "stops": [
+        {
+          "id": "sy-d5-s1",
+          "time": "자유",
+          "name": "Darling Harbour",
+          "category": "자유",
+          "query": "Darling Harbour Sydney",
+          "lat": -33.8675516,
+          "lng": 151.1995619,
+          "note": "호텔과 가까운 자유 일정 후보",
+          "tags": [
+            "자유여행"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sy-d6",
+      "date": "2026-05-05",
+      "title": "귀국",
+      "summary": "출발 3시간 전 공항 도착 목표",
+      "travelMode": "driving",
+      "stops": [
+        {
+          "id": "sy-d6-s1",
+          "time": "08:30",
+          "name": "시드니 공항",
+          "category": "공항",
+          "query": "Sydney Airport",
+          "lat": -33.9498935,
+          "lng": 151.1819682,
+          "note": "3시간 전 공항 도착 목표. 시드니 11시 30분 출발, 한국 21시 30분 도착",
+          "tags": [
+            "공항 도착",
+            "11:30 출발"
+          ]
+        }
+      ]
+    }
+  ]
+};
